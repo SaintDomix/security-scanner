@@ -1,0 +1,119 @@
+============================================================
+  SecureScanner v2 — How to Run (Windows)
+============================================================
+
+YOU ALREADY HAVE:
+  ✓ gitleaks.exe added to PATH
+  ✓ semgrep installed via pip
+  ✓ SECRET_KEY set in .env.example
+
+STEP 1 — Copy .env.example to .env
+---------------------------------------
+In the backend\ folder, copy .env.example and rename it to .env
+(or in PowerShell: copy backend\.env.example backend\.env)
+
+Make sure backend\.env has a proper SECRET_KEY like:
+  SECRET_KEY=anyrandomlongstringhere1234567890abcdef
+
+
+STEP 2 — Install bandit (Python SAST tool)
+---------------------------------------
+Open PowerShell or CMD and run:
+
+  pip install bandit
+
+This is a pure Python tool, no Visual Studio needed.
+
+
+STEP 3 — Run setup.bat
+---------------------------------------
+Double-click setup.bat in the securescanner folder.
+
+If it doesn't open: right-click → "Run as administrator"
+
+OR manually in PowerShell:
+  cd C:\path\to\securescanner
+  .\setup.bat
+
+
+STEP 4 — Start the app
+---------------------------------------
+Double-click start.bat
+
+OR manually open TWO PowerShell windows:
+
+  --- Window 1 (Backend) ---
+  cd C:\path\to\securescanner\backend
+  .venv\Scripts\activate
+  uvicorn app.main:app --reload
+
+  --- Window 2 (Frontend) ---
+  cd C:\path\to\securescanner\frontend
+  npm run dev
+
+
+STEP 5 — Open browser
+---------------------------------------
+Go to: http://localhost:5173
+
+Create an account and start scanning!
+
+
+============================================================
+  TROUBLESHOOTING
+============================================================
+
+Problem: "python is not recognized"
+Fix: Reinstall Python and check "Add Python to PATH"
+
+Problem: setup.bat closes immediately / nothing happens
+Fix: Right-click setup.bat → Open with → Command Prompt
+    OR open CMD, cd to the folder, type: setup.bat
+
+Problem: "uvicorn is not recognized"
+Fix: Make sure you're in the backend folder with venv active:
+    cd backend
+    .venv\Scripts\activate
+    uvicorn app.main:app --reload
+
+Problem: Frontend shows blank page
+Fix: Make sure BOTH windows are running (backend + frontend)
+    Check http://localhost:8000/health — should return {"status":"ok"}
+
+Problem: "Cannot connect to backend" errors
+Fix: Backend must be on port 8000. Check the backend window for errors.
+
+Problem: Scan stays "pending" forever  
+Fix: The backend is probably not running. Check the backend terminal window.
+    Gitleaks or semgrep may have failed — check backend terminal for error output.
+
+Problem: gitleaks not found
+Fix: Make sure gitleaks.exe path is in Windows PATH environment variable.
+    Test: open CMD and type: gitleaks version
+
+Problem: semgrep not found
+Fix: pip install semgrep
+    If it installs but doesn't work: check that Python Scripts folder is in PATH
+
+============================================================
+  TOOLS STATUS
+============================================================
+
+Required (app won't scan without these):
+  - gitleaks   → Secret detection       → you have this ✓
+  - semgrep    → SAST scan              → pip install semgrep ✓
+
+Optional (app works without, but adds more findings):
+  - bandit     → Python SAST            → pip install bandit
+  - OWASP ZAP  → DAST full scan        → skip for now, HTTP probe works instead
+
+============================================================
+  WHAT EACH TOOL SCANS
+============================================================
+
+Gitleaks  → Finds leaked API keys, passwords, tokens in code/git history
+Semgrep   → Finds insecure code patterns (SQL injection, XSS, bad crypto...)
+Bandit    → Python-specific security issues (hardcoded passwords, weak hash...)
+DAST      → Checks a live website for missing security headers, exposed files
+
+============================================================

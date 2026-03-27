@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Database & secrets
+backend/securescanner.db
+backend/.env
+backend/test-*.json
+
+# Scan output (generated at runtime)
+backend/repositories/
+backend/reports/
+
+# Node
+frontend/node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
