@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # ── Job 1: Backend syntax & import check ──────────────────────────────────
+
   backend-lint:
     name: Backend — Syntax & Import Check
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
           python -c "from app.services.github_service import validate_github_repo; print('✅ GitHub service OK')"
           python -c "from app.services.pdf_service import generate_scan_report; print('✅ PDF service OK')"
 
-  # ── Job 2: API integration tests ──────────────────────────────────────────
+
   api-tests:
     name: Backend — API Integration Tests
     runs-on: ubuntu-latest
@@ -236,7 +236,7 @@ jobs:
           echo "  ✅ Duplicate email → 400"
           echo "════════════════════════════════════════"
 
-  # ── Job 3: Frontend build check ───────────────────────────────────────────
+          
   frontend-build:
     name: Frontend — Build Check
     runs-on: ubuntu-latest
