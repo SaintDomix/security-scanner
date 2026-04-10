@@ -84,6 +84,17 @@ jobs:
           FRONTEND_URL=http://localhost:5173
           EOF
 
+      - name: Run backend tests with coverage
+        run: |
+          cd backend
+          python -m pytest tests -v --cov=app --cov-report=html --cov-report=term
+
+      - name: Deploy coverage to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: backend/htmlcov
+
       - name: Start backend server
         run: |
           cd backend
